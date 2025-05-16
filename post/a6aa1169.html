@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://tianhetonghua.github.io/post/a6aa1169/Pastedimage20250516193625.png">
 <meta property="og:image" content="https://tianhetonghua.github.io/post/a6aa1169/Pastedimage20250516204047.png">
 <meta property="article:published_time" content="2025-05-16T13:24:45.000Z">
-<meta property="article:modified_time" content="2025-05-16T13:45:22.418Z">
+<meta property="article:modified_time" content="2025-05-16T14:04:00.110Z">
 <meta property="article:author" content="tower">
 <meta property="article:tag" content="安卓逆向">
 <meta name="twitter:card" content="summary">
@@ -256,7 +256,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2025-05-16 21:24:45 / 修改时间：21:45:22" itemprop="dateCreated datePublished" datetime="2025-05-16T21:24:45+08:00">2025-05-16</time>
+      <time title="创建时间：2025-05-16 21:24:45 / 修改时间：22:04:00" itemprop="dateCreated datePublished" datetime="2025-05-16T21:24:45+08:00">2025-05-16</time>
     </span>
 
   
@@ -371,7 +371,7 @@
 <li>链接重定位：也叫静态重定位。在链接阶段，当发现函数是外部函数时，链接器在PLT段生成一段跳转代码PLT Stub,然后将代码中调用该函数的地址换成stub的地址</li>
 <li>运行时重定位：也叫动态重定位。在运行时，把外部函数的地址加载到got表中，调用该函数时，通过plt调转到got表中存储的地址实现调用。</li>
 </ul>
-<h4 id="延迟绑定"><a href="#延迟绑定" class="headerlink" title="延迟绑定"></a>延迟绑定</h4><p>延迟绑定指的是<strong>将外部函数地址的解析推迟到首次调用时</strong>，从而减少程序启动时间。<br>程序启动时，仅初始化 PLT（程序链接表）和 GOT（全局偏移表）的结构，不立即解析函数地址。<br>静态重定位是在给延迟绑定做准备，动态重定位是在执行阶段。<br><img src="/post/a6aa1169/Pastedimage20250516204047.png" alt="Pasted image 20250516204047.png"><br>与延迟绑定的是立即绑定。 动态链接器遍历所有外部符号（如<code>printf</code>、<code>malloc</code>)。 一次性解析所有符号的真实地址，并更新 GOT 表。 直接通过 GOT 表中的真实地址调用，无需动态链接器介入。</p>
+<h4 id="延迟绑定"><a href="#延迟绑定" class="headerlink" title="延迟绑定"></a>延迟绑定</h4><p>延迟绑定指的是<strong>将外部函数地址的解析推迟到首次调用时</strong>，从而减少程序启动时间。<br>程序启动时，仅初始化 PLT（程序链接表）和 GOT（全局偏移表）的结构，不立即解析函数地址。<br>静态重定位是在给延迟绑定做准备，动态重定位是在执行阶段。<br><img src="/post/a6aa1169/Pastedimage20250516204047.png" alt="Pasted image 20250516204047.png"><br>与延迟绑定对应的是立即绑定。 动态链接器遍历所有外部符号（如<code>printf</code>、<code>malloc</code>)。 一次性解析所有符号的真实地址，并更新 GOT 表。 直接通过 GOT 表中的真实地址调用，无需动态链接器介入。</p>
 <h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p><a target="_blank" rel="noopener" href="https://www.oryoy.com/news/android-mu-lu-jie-gou-quan-jie-xi-cong-xi-tong-dao-ying-yong-qing-song-zhang-wo-wen-jian-zu-zhi-zhi.html">Android目录结构全解析</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/anywherego/p/18221943">Android启动流程</a><br><a target="_blank" rel="noopener" href="https://gityuan.com/2016/03/26/app-process-create/">理解Android进程创建流程</a><br><a target="_blank" rel="noopener" href="https://juejin.cn/post/7236915296963428408#heading-4">深入理解Android-Runtime</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/shujk/p/14961572.html">AndroidManifest.xml 最全详解</a><br><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-272870.htm">Android Hook技术学习——常见的Hook技术方案总结</a></p>
 
     </div>
