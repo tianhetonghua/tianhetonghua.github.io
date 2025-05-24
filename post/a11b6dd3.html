@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"tianhetonghua.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="本文不构成任何技术操作指导或建议，仅供技术交流与学习参考。如发现本文内容存在可能违反法律规定的情况，请立即联系本人删除相关内容。（已对图片中出现的包名和应用名进行处理）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安卓逆向-抓包">
+<meta property="og:url" content="https://tianhetonghua.github.io/post/a11b6dd3">
+<meta property="og:site_name" content="Towerの博客">
+<meta property="og:description" content="本文不构成任何技术操作指导或建议，仅供技术交流与学习参考。如发现本文内容存在可能违反法律规定的情况，请立即联系本人删除相关内容。（已对图片中出现的包名和应用名进行处理）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tianhetonghua.github.io/post/a11b6dd3/Pastedimage20250524172222.png">
+<meta property="og:image" content="https://tianhetonghua.github.io/post/a11b6dd3/Pastedimage20250524172648.png">
+<meta property="og:image" content="https://tianhetonghua.github.io/post/a11b6dd3/Pastedimage20250524173255.png">
+<meta property="og:image" content="https://tianhetonghua.github.io/post/a11b6dd3/Pastedimage20250524175146.png">
+<meta property="og:image" content="https://tianhetonghua.github.io/post/a11b6dd3/Pastedimage20250524194201.png">
+<meta property="og:image" content="https://tianhetonghua.github.io/post/a11b6dd3/Pastedimage20250524194829.png">
+<meta property="og:image" content="https://tianhetonghua.github.io/post/a11b6dd3/Pastedimage20250524200553.png">
+<meta property="og:image" content="https://tianhetonghua.github.io/post/a11b6dd3/Pastedimage20250524201438.png">
+<meta property="article:published_time" content="2025-05-24T12:17:21.000Z">
+<meta property="article:modified_time" content="2025-05-24T12:43:53.693Z">
+<meta property="article:author" content="tower">
+<meta property="article:tag" content="安卓逆向">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://tianhetonghua.github.io/post/a11b6dd3/Pastedimage20250524172222.png">
+
+
+<link rel="canonical" href="https://tianhetonghua.github.io/post/a11b6dd3.html">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://tianhetonghua.github.io/post/a11b6dd3","path":"post/a11b6dd3.html","title":"安卓逆向-抓包"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入查看密码') !== ''){
+                alert('密码不正确,请询问主编大大！');
+                history.back();
+            }
+        }
+    })();
+</script><title>安卓逆向-抓包 | Towerの博客</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Towerの博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">屹立 翱翔 超越</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">11</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Charles%E4%BD%BF%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">Charles使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E6%8A%93%E5%8C%85"><span class="nav-number">2.</span> <span class="nav-text">应用抓包</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="tower"
+      src="/images/avatar.webp">
+  <p class="site-author-name" itemprop="name">tower</p>
+  <div class="site-description" itemprop="description">非学无以广才，非志无以成学</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://tianhetonghua.github.io/post/a11b6dd3">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.webp">
+      <meta itemprop="name" content="tower">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Towerの博客">
+      <meta itemprop="description" content="非学无以广才，非志无以成学">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="安卓逆向-抓包 | Towerの博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          安卓逆向-抓包
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-05-24 20:17:21 / 修改时间：20:43:53" itemprop="dateCreated datePublished" datetime="2025-05-24T20:17:21+08:00">2025-05-24</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><strong>本文不构成任何技术操作指导或建议，仅供技术交流与学习参考。如发现本文内容存在可能违反法律规定的情况，请立即联系本人删除相关内容。（已对图片中出现的包名和应用名进行处理）</strong></p>
+<h2 id="Charles使用"><a href="#Charles使用" class="headerlink" title="Charles使用"></a>Charles使用</h2><p>官网网址：<a target="_blank" rel="noopener" href="https://www.charlesproxy.com/">https://www.charlesproxy.com</a><br>网上已经有很多相关的教程了，我这里写一遍有点浪费时间。这里给几个链接：</p>
+<ul>
+<li>激活工具：<a target="_blank" rel="noopener" href="https://down.52pojie.cn/?query=chales">https://down.52pojie.cn/?query=chales</a></li>
+<li>教程：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43612602/article/details/135287720">https://blog.csdn.net/weixin_43612602/article/details/135287720</a><br>这个教程缺少手机端的操作：<br>下载安装好证书之后，电脑和手机连接到同一个网络，手机WIFI设置中，长按连接的网络，选择修改网络，其中代理选择手动，代理主机名是电脑的IP地址（IP并不是每次都不变的，路由器的ARP表会更新的，所以一段时间之后重新进行代理，一定要记得重新设置一下‘代理服务器主机名’这一项）<br><img src="/post/a11b6dd3/Pastedimage20250524172222.png" alt="Pastedimage20250524172222.png"></li>
+</ul>
+<p>端口往往是8888：<br>可以在电脑端Charles中的Help-&gt;SSL Proxying-&gt;install charles RootCertificate on a Mobile……..<br><img src="/post/a11b6dd3/Pastedimage20250524172648.png" alt="Pastedimage20250524172648.png"><br>然后，当开始抓包时，<br><img src="/post/a11b6dd3/Pastedimage20250524173255.png" alt="Pastedimage20250524173255.png"><br>点击Allow即可。</p>
+<h2 id="应用抓包"><a href="#应用抓包" class="headerlink" title="应用抓包"></a>应用抓包</h2><p>这次的目标是一款心理治愈类APP，它有个挖胶囊的功能，但是每个账号每天只能抓5个胶囊。<br>开始之前，可以先把本地抓包关闭了，只抓手机上的数据包：<br><img src="/post/a11b6dd3/Pastedimage20250524175146.png" alt="[Pastedimage20250524175146.png]"><br>关闭Windows Proxy。<br>然后挖个胶囊看看怎么个事：<br><img src="/post/a11b6dd3/Pastedimage20250524194201.png" alt="[Pastedimage20250524194201.png]"><br>先发送一个POST请求，获取Yaoyiyao服务，服务器随机返回一个用户的info，然后APP根据info再次发送info中相关资源的GET请求，获取诸如头像，图片，音乐之类的资源，最后再获取与该info相关的评论。<br>再看看POST请求的param怎么设计的，有哪些参数：<br><img src="/post/a11b6dd3/Pastedimage20250524194829.png" alt="[Pastedimage20250524194829.png]"><br>我们照着这个请求自己实现一下POST：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests  </span><br><span class="line">  </span><br><span class="line">URL=<span class="string">&quot;https://服务器/services/v2/xxxx/yaoYiYao&quot;</span>  </span><br><span class="line">myparams = &#123;  </span><br><span class="line">    <span class="string">&quot;userId&quot;</span>:<span class="number">100000</span>,  </span><br><span class="line">    <span class="string">&quot;longitude&quot;</span>:<span class="number">100</span>,  </span><br><span class="line">    <span class="string">&quot;latitude&quot;</span>:<span class="number">50</span>,  </span><br><span class="line">    <span class="string">&quot;blindBox&quot;</span>:<span class="number">0</span>  </span><br><span class="line">&#125;  </span><br><span class="line">myheader=&#123;  </span><br><span class="line">    <span class="string">&quot;Content-Length&quot;</span>: <span class="string">&quot;0&quot;</span>,  </span><br><span class="line">    <span class="string">&quot;Host&quot;</span>: <span class="string">&quot;服务器&quot;</span>,  </span><br><span class="line">    <span class="string">&quot;Connection&quot;</span>: <span class="string">&quot;Keep-Alive&quot;</span>,  </span><br><span class="line">    <span class="string">&quot;Accept-Encoding&quot;</span>: <span class="string">&quot;gzip&quot;</span>,  </span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;okhttp/4.10.0&quot;</span>  </span><br><span class="line">&#125;  </span><br><span class="line">response=requests.post(url=URL,params=myparams,headers=myheader)  </span><br><span class="line"><span class="built_in">print</span>(response.text)</span><br></pre></td></tr></table></figure>
+<p><img src="/post/a11b6dd3/Pastedimage20250524200553.png" alt="[Pastedimage20250524200553.png]"><br>这样就能获得服务了，id可以随意伪造，longitude和latitude也是可以随意伪造的。这个功能有个机制就是每个账号每天只能挖五个胶囊，我们可以设计一下，每请求5次，更改一下账号和经纬度，就能继续获取。<br>我据此实现了一个漂流瓶功能：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests  </span><br><span class="line"><span class="keyword">import</span> random  </span><br><span class="line"><span class="keyword">import</span> time  </span><br><span class="line"><span class="keyword">import</span> json  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Myhttp</span>:  </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):  </span><br><span class="line">        <span class="comment"># 基础URL和默认参数  </span></span><br><span class="line">        <span class="variable language_">self</span>.base_url = <span class="string">&quot;https://服务器/services/v2/xxxx/yaoYiYao&quot;</span>  </span><br><span class="line">        <span class="variable language_">self</span>.userId = <span class="number">100000</span>  </span><br><span class="line">        <span class="variable language_">self</span>.longitude = <span class="number">109</span>  </span><br><span class="line">        <span class="variable language_">self</span>.latitude = <span class="number">35</span>  </span><br><span class="line">        <span class="variable language_">self</span>.blindBox = <span class="number">0</span>  </span><br><span class="line">  </span><br><span class="line">        <span class="comment"># 通用请求头  </span></span><br><span class="line">        <span class="variable language_">self</span>.headers = &#123;  </span><br><span class="line">            <span class="string">&quot;Content-Length&quot;</span>: <span class="string">&quot;0&quot;</span>,  </span><br><span class="line">            <span class="string">&quot;Host&quot;</span>: <span class="string">&quot;服务器&quot;</span>,  </span><br><span class="line">            <span class="string">&quot;Connection&quot;</span>: <span class="string">&quot;Keep-Alive&quot;</span>,  </span><br><span class="line">            <span class="string">&quot;Accept-Encoding&quot;</span>: <span class="string">&quot;gzip&quot;</span>,  </span><br><span class="line">            <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;okhttp/4.10.0&quot;</span>  </span><br><span class="line">        &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">update_params</span>(<span class="params">self</span>):  </span><br><span class="line">        <span class="string">&quot;&quot;&quot;更新请求参数（随机化）&quot;&quot;&quot;</span>  </span><br><span class="line">        random.seed(time.time())  </span><br><span class="line">        temp = random.random()  </span><br><span class="line">  </span><br><span class="line">        <span class="comment"># 更新参数（使用更合理的随机化逻辑）  </span></span><br><span class="line">        <span class="variable language_">self</span>.userId += <span class="built_in">int</span>(temp * <span class="number">1000000</span>)  <span class="comment"># 随机增加用户ID  </span></span><br><span class="line">        <span class="variable language_">self</span>.longitude += (temp - <span class="number">0.5</span>) * <span class="number">20</span>  <span class="comment"># 经度随机浮动  </span></span><br><span class="line">        <span class="variable language_">self</span>.latitude += (temp - <span class="number">0.5</span>) * <span class="number">20</span>  <span class="comment"># 纬度随机浮动  </span></span><br><span class="line">  </span><br><span class="line">        <span class="comment"># 打印当前参数（调试用）  </span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;当前参数: UserID=<span class="subst">&#123;self.userId&#125;</span>, 经纬度=(<span class="subst">&#123;self.longitude&#125;</span>, <span class="subst">&#123;self.latitude&#125;</span>)&quot;</span>)  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">post</span>(<span class="params">self</span>):  </span><br><span class="line">        <span class="string">&quot;&quot;&quot;发送POST请求（无需参数）&quot;&quot;&quot;</span>  </span><br><span class="line">        <span class="keyword">try</span>:  </span><br><span class="line">            <span class="comment"># 构建请求参数  </span></span><br><span class="line">            params = &#123;  </span><br><span class="line">                <span class="string">&quot;userId&quot;</span>: <span class="variable language_">self</span>.userId,  </span><br><span class="line">                <span class="string">&quot;longitude&quot;</span>: <span class="variable language_">self</span>.longitude,  </span><br><span class="line">                <span class="string">&quot;latitude&quot;</span>: <span class="variable language_">self</span>.latitude,  </span><br><span class="line">                <span class="string">&quot;blindBox&quot;</span>: <span class="variable language_">self</span>.blindBox  </span><br><span class="line">            &#125;  </span><br><span class="line">  </span><br><span class="line">            <span class="comment"># 发送请求  </span></span><br><span class="line">            response = requests.post(<span class="variable language_">self</span>.base_url, params=params, headers=<span class="variable language_">self</span>.headers)  </span><br><span class="line">            response.raise_for_status()  <span class="comment"># 若状态码不是2xx，抛出异常  </span></span><br><span class="line">            response_text=json.loads(response.text)  </span><br><span class="line">            <span class="comment">#print(response.text)  </span></span><br><span class="line">  </span><br><span class="line">            <span class="keyword">return</span> response_text  <span class="comment"># 返回JSON格式的响应数据  </span></span><br><span class="line">  </span><br><span class="line">        <span class="keyword">except</span> requests.RequestException <span class="keyword">as</span> e:  </span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;请求出错: <span class="subst">&#123;e&#125;</span>&quot;</span>)  </span><br><span class="line">            exit()  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Myprint</span>(<span class="params">msg</span>):  </span><br><span class="line">    <span class="string">&quot;&quot;&quot;安全地打印消息内容，处理可能的空数据情况&quot;&quot;&quot;</span>  </span><br><span class="line">    <span class="keyword">if</span> msg <span class="keyword">is</span> <span class="literal">None</span> <span class="keyword">or</span> msg.get(<span class="string">&quot;datas&quot;</span>) <span class="keyword">is</span> <span class="literal">None</span>:  </span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;没有找到有效的漂流瓶数据，跳过打印&quot;</span>)  </span><br><span class="line">        <span class="keyword">return</span>  </span><br><span class="line">  </span><br><span class="line">    xxxx_dto = msg[<span class="string">&quot;datas&quot;</span>].get(<span class="string">&quot;xxxxDTO&quot;</span>)  </span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> xxxx_dto:  </span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;没有找到有效的漂流瓶信息，跳过打印&quot;</span>)  </span><br><span class="line">        <span class="keyword">return</span>  </span><br><span class="line">  </span><br><span class="line">    <span class="comment"># 安全获取各个字段的值  </span></span><br><span class="line">    xxxx_info = xxxx_dto.get(<span class="string">&quot;xxxxInfo&quot;</span>, <span class="string">&quot;&quot;</span>)  </span><br><span class="line">    user = xxxx_dto.get(<span class="string">&quot;user&quot;</span>, &#123;&#125;)  </span><br><span class="line">    nickname = user.get(<span class="string">&quot;nickName&quot;</span>, <span class="string">&quot;无名人&quot;</span>)  </span><br><span class="line">    city_name = xxxx_dto.get(<span class="string">&quot;cityName&quot;</span>, <span class="string">&quot;未知地&quot;</span>)  </span><br><span class="line">    create_date_short = xxxx_dto.get(<span class="string">&quot;createDateShort&quot;</span>, <span class="string">&quot;&quot;</span>)  </span><br><span class="line">    media_url_list = xxxx_dto.get(<span class="string">&quot;mediaUrlList&quot;</span>, <span class="string">&quot;&quot;</span>)  </span><br><span class="line">  </span><br><span class="line">    <span class="comment"># 打印获取到的信息  </span></span><br><span class="line">    <span class="built_in">print</span>(nickname, <span class="string">&#x27;from&#x27;</span>, city_name, <span class="string">&#x27;\n&#x27;</span>, xxxx_info, <span class="string">&#x27;\n&#x27;</span>, create_date_short, <span class="string">&#x27;\n&#x27;</span>, media_url_list)  </span><br><span class="line"><span class="comment"># 使用示例  </span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:  </span><br><span class="line">    http_client = Myhttp()  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:  </span><br><span class="line">        http_client.update_params()  </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):  </span><br><span class="line">            msg=http_client.post()  <span class="comment"># 发送请求  </span></span><br><span class="line">            Myprint(msg)  </span><br><span class="line">            time.sleep(<span class="number">2</span>)  <span class="comment"># 等待2秒  </span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;\n\n\n\n\n\n下一个漂流瓶来咯~~~~~~\n\n&quot;</span>)  </span><br><span class="line">        <span class="comment"># 每5次请求后等待更长时间  </span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;===== 休息5秒 =====&quot;</span>)  </span><br><span class="line">        time.sleep(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<p>再加上一点页面：<br><img src="/post/a11b6dd3/Pastedimage20250524201438.png" alt="[Pastedimage20250524201438.png]"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91/" rel="tag"># 安卓逆向</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/post/78290ce7" rel="prev" title="去除某漫画软件启动广告并绕过重打包检测">
+                  <i class="fa fa-angle-left"></i> 去除某漫画软件启动广告并绕过重打包检测
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">tower</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">30k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">27 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/tianhetonghua" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"tianhetonghua","repo":"AboutMyBlog","client_id":"Ov23lip5hWLlPib3F06n","client_secret":"4142ba6b432e4e10474e6ed440544285a7602c51","admin_user":"tianhetonghua","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"e1c88d8f17516908d178541da88e3465"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+</body>
+</html>
