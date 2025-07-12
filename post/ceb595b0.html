@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"tianhetonghua.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="本文不构成任何技术操作指导或建议，仅供技术交流与学习参考。如发现本文内容存在可能违反法律规定的情况，请立即联系本人删除相关内容。（已对图片中出现的包名和应用名进行处理）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mmmhua的模拟登录和部分通信协议分析">
+<meta property="og:url" content="https://tianhetonghua.github.io/post/ceb595b0">
+<meta property="og:site_name" content="Towerの博客">
+<meta property="og:description" content="本文不构成任何技术操作指导或建议，仅供技术交流与学习参考。如发现本文内容存在可能违反法律规定的情况，请立即联系本人删除相关内容。（已对图片中出现的包名和应用名进行处理）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tianhetonghua.github.io/post/ceb595b0/Pastedimage20250712224444.png">
+<meta property="og:image" content="https://tianhetonghua.github.io/post/ceb595b0/Pastedimage20250712225929.png">
+<meta property="og:image" content="https://tianhetonghua.github.io/post/ceb595b0/Pastedimage20250713001057.png">
+<meta property="article:published_time" content="2025-07-12T16:13:48.000Z">
+<meta property="article:modified_time" content="2025-07-12T16:24:40.957Z">
+<meta property="article:author" content="tower">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://tianhetonghua.github.io/post/ceb595b0/Pastedimage20250712224444.png">
+
+
+<link rel="canonical" href="https://tianhetonghua.github.io/post/ceb595b0.html">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://tianhetonghua.github.io/post/ceb595b0","path":"post/ceb595b0.html","title":"mmmhua的模拟登录和部分通信协议分析"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入查看密码') !== ''){
+                alert('密码不正确,请询问主编大大！');
+                history.back();
+            }
+        }
+    })();
+</script><title>mmmhua的模拟登录和部分通信协议分析 | Towerの博客</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Towerの博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">屹立 翱翔 超越</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">13</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="tower"
+      src="/images/avatar.webp">
+  <p class="site-author-name" itemprop="name">tower</p>
+  <div class="site-description" itemprop="description">非学无以广才，非志无以成学</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://tianhetonghua.github.io/post/ceb595b0">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.webp">
+      <meta itemprop="name" content="tower">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Towerの博客">
+      <meta itemprop="description" content="非学无以广才，非志无以成学">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="mmmhua的模拟登录和部分通信协议分析 | Towerの博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          mmmhua的模拟登录和部分通信协议分析
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-07-13 00:13:48 / 修改时间：00:24:40" itemprop="dateCreated datePublished" datetime="2025-07-13T00:13:48+08:00">2025-07-13</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>7.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><strong>本文不构成任何技术操作指导或建议，仅供技术交流与学习参考。如发现本文内容存在可能违反法律规定的情况，请立即联系本人删除相关内容。（已对图片中出现的包名和应用名进行处理）</strong></p>
+<p>本来想着实现一下这个漫画app的模拟登录，结果抓个包一看：<br><img src="/post/ceb595b0/Pastedimage20250712224444.png" alt="[Pastedimage20250712224444.png]"><br>data字段被加密，我先猜的Base64，但实际上没那么简单。<br><img src="/post/ceb595b0/Pastedimage20250712225929.png" alt="[Pastedimage20250712225929.png]"><br>进入jadx看看LoginActivity:</p>
+<p>手机验证登录部分：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> R.id.login_button <span class="comment">/* 2131232486 */</span>: </span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">this</span>.cbServiceSelect.isChecked()) &#123; </span><br><span class="line">        ToastUtils.show(<span class="string">&quot;请勾选并同意《隐私政策》和《服务协议》&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (l(<span class="built_in">this</span>.loginPhoneEdit.getText().toString().trim())) &#123; <span class="comment">// 获取输入的电话</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span>.loginCodeEdit.getText().toString().trim().length() != <span class="number">0</span>) &#123; <span class="comment">// 验证码不为空</span></span><br><span class="line">            showDialog();</span><br><span class="line">            <span class="type">ApiParams</span> <span class="variable">apiParams</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ApiParams</span>();</span><br><span class="line">            apiParams.with(Constants.RequestAction.getUser()); <span class="comment">// return &quot;user/login&quot;;</span></span><br><span class="line">            apiParams.with(<span class="string">&quot;mobile&quot;</span>, <span class="built_in">this</span>.loginPhoneEdit.getText().toString().trim()); <span class="comment">// 追加电话号码</span></span><br><span class="line">            apiParams.with(PluginConstants.KEY_ERROR_CODE, <span class="built_in">this</span>.loginCodeEdit.getText().toString().trim()); <span class="comment">// 追加验证码</span></span><br><span class="line">            ServiceProvider.postAsyn(<span class="built_in">this</span>, <span class="built_in">this</span>.q, apiParams, UserBean.class, <span class="built_in">this</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        showToast(getResources().getString(R.string._please_input_validate_code));</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><code>postAysn-&gt;post-&gt;.....-&gt;DataRequestWrapper-&gt;p-&gt;n-&gt;b-&gt;converTobase64()-&gt;Base64.encode()</code><br>这不仅是登录的调用栈，这个app的所有网络请求都是经过postAysn-&gt;p的过程。p是一个调度函数，根据功能的不同，实现不同的请求。</p>
+<p>继续分析这个登录请求，在方法b中，有个方法j，拼成最终的data，然后经由方法b进行加密。</p>
+<p>我在多次抓取请求的过程中，发现token的一些使用规则：</p>
+<ul>
+<li>存储在运行时文件token_sp.xml中</li>
+<li>由服务端生成，每次登陆时服务端会发送本次登录的会话token</li>
+<li>如果是在本设备上首次登录，可以使用默认token：”manmanDefaultToken”</li>
+<li>如果之前在本设备上退出登录，退出登录时服务端也会发送一个token，供下次登录使用</li>
+</ul>
+<p>由于抓包得到的内容不可读，需要hook一些方法和函数来验证：<br>这是脚本：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Java</span>.<span class="title function_">perform</span>(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="title class_">DataRequestWrapper</span> = <span class="title class_">Java</span>.<span class="title function_">use</span>(<span class="string">&quot;com.itcode.reader.datarequest.neworkWrapper.DataRequestWrapper&quot;</span>);</span><br><span class="line">    <span class="title class_">DataRequestWrapper</span>.<span class="property">p</span>.<span class="property">implementation</span> = <span class="keyword">function</span> (<span class="params">builder</span>) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;==== DataRequestWrapper.p() 被调用 ====&quot;</span>);</span><br><span class="line">        <span class="comment">// console.log(&quot;builder param map: &quot; + builder.f);</span></span><br><span class="line">        <span class="comment">// console.log(&quot;builder type: &quot; + builder.h);</span></span><br><span class="line">        <span class="comment">// console.log(&quot;builder tag: &quot; + builder.k);</span></span><br><span class="line">        <span class="keyword">let</span> result = <span class="variable language_">this</span>.<span class="property">p</span>.<span class="title function_">call</span>(<span class="variable language_">this</span>, builder);</span><br><span class="line">        <span class="comment">// console.log(&quot;p() 返回的 Request: &quot; + result);</span></span><br><span class="line">        <span class="comment">// console.log(&quot;Request URL: &quot; + result.url());</span></span><br><span class="line">        <span class="comment">// console.log(&quot;Request Headers: &quot; + result.headers());  </span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> body=result.<span class="title function_">body</span>();</span><br><span class="line">        <span class="keyword">if</span> (body != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">let</span> <span class="title class_">Buffer</span> = <span class="title class_">Java</span>.<span class="title function_">use</span>(<span class="string">&quot;okio.Buffer&quot;</span>);</span><br><span class="line">            <span class="keyword">let</span> buffer = <span class="title class_">Buffer</span>.$new();</span><br><span class="line">            body.<span class="title function_">writeTo</span>(buffer);</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Request Body: &quot;</span> + buffer.<span class="title function_">readUtf8</span>());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="comment">// DataRequestWrapper.n.implementation = function (str, bArr, obj) &#123;</span></span><br><span class="line">    <span class="comment">//     console.log(`DataRequestWrapper.n is called:  bArr=$&#123;bArr&#125;,\n, obj=$&#123;obj&#125;`);</span></span><br><span class="line">    <span class="comment">//     let result = this[&quot;n&quot;](str, bArr, obj);</span></span><br><span class="line">    <span class="comment">//     console.log(`DataRequestWrapper.n result=$&#123;result&#125;`);</span></span><br><span class="line">    <span class="comment">//     return result;</span></span><br><span class="line">    <span class="comment">// &#125;; </span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="title class_">JSON</span>Tools = <span class="title class_">Java</span>.<span class="title function_">use</span>(<span class="string">&quot;com.itcode.reader.datarequest.tool.JSONTools&quot;</span>);</span><br><span class="line">    <span class="title class_">JSON</span>Tools[<span class="string">&quot;parseMapToJson&quot;</span>].<span class="property">implementation</span> = <span class="keyword">function</span> (<span class="params">map</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> result = <span class="variable language_">this</span>[<span class="string">&quot;parseMapToJson&quot;</span>](map);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`JSONTools.parseMapToJson result=<span class="subst">$&#123;result&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title class_">DataRequestWrapper</span>[<span class="string">&quot;convertToBase64&quot;</span>].<span class="property">implementation</span> = <span class="keyword">function</span> (<span class="params">iArr</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`DataRequestWrapper.convertToBase64 is called: iArr=<span class="subst">$&#123;iArr&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">let</span> result = <span class="variable language_">this</span>[<span class="string">&quot;convertToBase64&quot;</span>](iArr);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">` 结果字符串原始=<span class="subst">$&#123;result&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">const</span> resultJs = <span class="title class_">Array</span>.<span class="title function_">from</span>(result); <span class="comment">// 确保结果是JS数组</span></span><br><span class="line">    <span class="keyword">const</span> resultStr = resultJs.<span class="title function_">map</span>(<span class="function"><span class="params">code</span> =&gt;</span> <span class="title class_">String</span>.<span class="title function_">fromCharCode</span>(code)).<span class="title function_">join</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">` 结果字符串处理后=<span class="subst">$&#123;resultStr&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Java</span>.<span class="title function_">perform</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">//验证函数n就是通信协议的最后一个函数</span></span><br><span class="line">    <span class="keyword">let</span> <span class="title class_">DataRequestWrapper</span> = <span class="title class_">Java</span>.<span class="title function_">use</span>(<span class="string">&quot;com.itcode.reader.datarequest.neworkWrapper.DataRequestWrapper&quot;</span>);</span><br><span class="line">    <span class="title class_">DataRequestWrapper</span>[<span class="string">&quot;n&quot;</span>].<span class="property">implementation</span> = <span class="keyword">function</span> (<span class="params">str, bArr, obj</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`DataRequestWrapper.n is called: str=<span class="subst">$&#123;str&#125;</span>, bArr=<span class="subst">$&#123;bArr&#125;</span>, obj=<span class="subst">$&#123;obj&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">let</span> result = <span class="variable language_">this</span>[<span class="string">&quot;n&quot;</span>](str, bArr, obj);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`DataRequestWrapper.n result=<span class="subst">$&#123;result&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;;</span><br><span class="line">    <span class="comment">//查看验证函数j的逻辑，每次登陆产生的token不一样，首次使用app可用默认token：“manmanDefaultToken”</span></span><br><span class="line">    <span class="keyword">let</span> <span class="title class_">JSON</span>Tools = <span class="title class_">Java</span>.<span class="title function_">use</span>(<span class="string">&quot;com.itcode.reader.datarequest.tool.JSONTools&quot;</span>);</span><br><span class="line">    <span class="title class_">JSON</span>Tools[<span class="string">&quot;parseMapToJson&quot;</span>].<span class="property">implementation</span> = <span class="keyword">function</span> (<span class="params">map</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> result = <span class="variable language_">this</span>[<span class="string">&quot;parseMapToJson&quot;</span>](map);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`JSONTools.parseMapToJson result=<span class="subst">$&#123;result&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>最后，实现模拟登录：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json  </span><br><span class="line"><span class="keyword">import</span> time  </span><br><span class="line"><span class="keyword">import</span> base64  </span><br><span class="line"><span class="keyword">import</span>  requests  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Login</span>():  </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,encode_pattern,mobile</span>):  </span><br><span class="line">        <span class="variable language_">self</span>.url=<span class="string">&quot;https://xxxxxxxxxxxxxxxxxx&quot;</span>  </span><br><span class="line">        <span class="variable language_">self</span>.headers = &#123;  </span><br><span class="line">            <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;raw&#x27;</span>,  </span><br><span class="line">            <span class="string">&#x27;Accept-Encoding&#x27;</span>: <span class="string">&#x27;gzip&#x27;</span>,  </span><br><span class="line">            <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;okhttp/3.14.9&#x27;</span>,  </span><br><span class="line">            <span class="string">&#x27;Host&#x27;</span>: <span class="string">&#x27;api.tmanga.com&#x27;</span>  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="variable language_">self</span>.token=<span class="string">&#x27;&#x27;</span>  </span><br><span class="line">        <span class="variable language_">self</span>.encode_pattern=encode_pattern  </span><br><span class="line">        <span class="variable language_">self</span>.mobile=mobile  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get_appversion_info</span>(<span class="params">self</span>):  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;5.2.51^ONEPLUS A6010^android^android^9^oppo^373899aa3f886e93^98:09:CF:0C:D3:6D^869386043396293^202411010^^^^&quot;</span>  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get_token</span>(<span class="params">self</span>):  </span><br><span class="line">        <span class="comment">#每次登录都有一个属于本次登陆的一个token，如果之前在本设备上退出了，设备会保留退出时服务器发送的token，如果没有这个token，获取验证码时的请求就会使用默认token  </span></span><br><span class="line">  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;manmanDefaultToken&quot;</span>  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get_precom</span>(<span class="params">self</span>):  </span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">fluter_and_add</span>(<span class="params">self,param</span>):  </span><br><span class="line">        param.pop(<span class="string">&quot;wkParams&quot;</span>,<span class="literal">None</span>)  </span><br><span class="line">        <span class="comment">#由于对于同一个设备的同一个用户而言，info恒定，这里就用抓到的信息，后续需要可以补充get_appversion_inf()  </span></span><br><span class="line">        param[<span class="string">&quot;p_recom&quot;</span>]=<span class="variable language_">self</span>.get_precom()  </span><br><span class="line">        param[<span class="string">&quot;info&quot;</span>]=<span class="variable language_">self</span>.get_appversion_info()  </span><br><span class="line">        param[<span class="string">&quot;token&quot;</span>]=<span class="variable language_">self</span>.get_token()  </span><br><span class="line">        <span class="keyword">return</span> json.dumps(param,ensure_ascii=<span class="literal">False</span>)  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">log_encode</span>(<span class="params">self,<span class="built_in">map</span>,default</span>):  </span><br><span class="line">        log_json=<span class="variable language_">self</span>.fluter_and_add(<span class="built_in">map</span>)  </span><br><span class="line">        <span class="built_in">print</span>(log_json)  </span><br><span class="line">        <span class="keyword">if</span> default==<span class="literal">True</span>:  </span><br><span class="line">            times=<span class="built_in">int</span>(time.time())  </span><br><span class="line">            <span class="keyword">if</span> times&lt;<span class="number">1000000000</span>:  </span><br><span class="line">                times=<span class="number">1000000000</span>  </span><br><span class="line">            sb=<span class="built_in">str</span>(log_json)+<span class="string">&#x27;3&#x27;</span>+<span class="built_in">str</span>(times)  </span><br><span class="line">        <span class="keyword">else</span>:  </span><br><span class="line">            times=<span class="built_in">int</span>(time.time())+<span class="number">1</span>  </span><br><span class="line">            <span class="keyword">if</span> times&lt;<span class="number">1000000000</span>:  </span><br><span class="line">                times=<span class="number">1000000000</span>  </span><br><span class="line">            sb=<span class="built_in">str</span>(log_json)+<span class="built_in">str</span>(times)  </span><br><span class="line">  </span><br><span class="line">        bytes_data = sb.encode(<span class="string">&#x27;utf-8&#x27;</span>)  </span><br><span class="line">        length = <span class="built_in">len</span>(bytes_data)  </span><br><span class="line">  </span><br><span class="line">        c_arr = []  </span><br><span class="line">        <span class="keyword">for</span> byte <span class="keyword">in</span> bytes_data:  </span><br><span class="line">            c_arr.append(<span class="built_in">chr</span>(byte &amp; <span class="number">255</span>))  </span><br><span class="line">  </span><br><span class="line">        i_arr = [<span class="number">0</span>] * length  </span><br><span class="line">        i3 = <span class="number">0</span>  </span><br><span class="line">        i4 = <span class="number">1</span>  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">for</span> i5 <span class="keyword">in</span> <span class="built_in">range</span>(length):  </span><br><span class="line">            i6 = i5 % <span class="number">5</span>  </span><br><span class="line">            <span class="keyword">if</span> i6 == <span class="number">0</span>:  </span><br><span class="line">                <span class="keyword">if</span> i3 % <span class="number">2</span> == <span class="number">0</span>:  </span><br><span class="line">                    i4 = <span class="number">1</span>  </span><br><span class="line">                <span class="keyword">else</span>:  </span><br><span class="line">                    i4 = -<span class="number">1</span>  </span><br><span class="line">                i3 += <span class="number">1</span>  </span><br><span class="line">  </span><br><span class="line">            c = c_arr[i5]  </span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">ord</span>(c) &gt;= <span class="number">127</span>:  </span><br><span class="line">                i_arr[i5] = <span class="built_in">ord</span>(c) - <span class="built_in">ord</span>(<span class="string">&#x27;&#125;&#x27;</span>)  </span><br><span class="line">            <span class="keyword">else</span>:  </span><br><span class="line">                i_arr[i5] = <span class="built_in">ord</span>(c) + <span class="built_in">ord</span>(<span class="string">&#x27;n&#x27;</span>) + ((i6 + <span class="number">1</span>) * i4)  </span><br><span class="line">  </span><br><span class="line">        <span class="comment">#coverTobase64函数部分  </span></span><br><span class="line">        b_arr = <span class="built_in">bytearray</span>((x &amp; <span class="number">0xFF</span>) <span class="keyword">for</span> x <span class="keyword">in</span> i_arr)  </span><br><span class="line">        encoded_bytes = base64.b64encode(b_arr)  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">return</span> encoded_bytes  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">phone_login</span>(<span class="params">self</span>):  </span><br><span class="line">        params=&#123;  </span><br><span class="line">            <span class="string">&quot;mobile&quot;</span>:<span class="variable language_">self</span>.mobile,  </span><br><span class="line">            <span class="string">&quot;code&quot;</span>:<span class="string">&#x27;&#x27;</span>,  </span><br><span class="line">            <span class="string">&quot;api&quot;</span>:<span class="string">&quot;user/login&quot;</span>  </span><br><span class="line">        &#125;  </span><br><span class="line">        params_code=&#123;  </span><br><span class="line">            <span class="string">&quot;mobile&quot;</span>:<span class="variable language_">self</span>.mobile,  </span><br><span class="line">            <span class="string">&quot;api&quot;</span>:<span class="string">&quot;verify-code/send&quot;</span>  </span><br><span class="line">        &#125;  </span><br><span class="line">  </span><br><span class="line">        code_data=<span class="variable language_">self</span>.log_encode(params_code,<span class="variable language_">self</span>.encode_pattern)  </span><br><span class="line">        <span class="built_in">print</span>(code_data)  </span><br><span class="line">        response0 = requests.post(<span class="variable language_">self</span>.url, data=code_data, headers=<span class="variable language_">self</span>.headers)  </span><br><span class="line">        <span class="built_in">print</span>(response0.text)  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">        params[<span class="string">&quot;code&quot;</span>]=<span class="built_in">input</span>(<span class="string">&quot;输入验证码： \n&quot;</span>)  </span><br><span class="line">        log_data=<span class="variable language_">self</span>.log_encode(params,<span class="variable language_">self</span>.encode_pattern)  </span><br><span class="line">        <span class="built_in">print</span>(log_data)  </span><br><span class="line">        response = requests.post(<span class="variable language_">self</span>.url, data=log_data, headers=<span class="variable language_">self</span>.headers)  </span><br><span class="line">        <span class="built_in">print</span>(response.text)  </span><br><span class="line">        <span class="variable language_">self</span>.token=response.json().get(<span class="string">&quot;data&quot;</span>).get(<span class="string">&quot;token&quot;</span>)  </span><br><span class="line">        <span class="built_in">print</span>(<span class="variable language_">self</span>.token)  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">&quot;__main__&quot;</span>:  </span><br><span class="line">  </span><br><span class="line">    phone_login=Login(mobile=xxxxxxxxxxx,encode_pattern=<span class="literal">True</span>)  </span><br><span class="line">    phone_login.phone_login()</span><br></pre></td></tr></table></figure>
+
+<p>成功实现登录：<br><img src="/post/ceb595b0/Pastedimage20250713001057.png" alt="[Pastedimage20250713001057.png]"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/post/cd471d9e" rel="prev" title="某款三国类题材游戏绕过Frida检测尝试">
+                  <i class="fa fa-angle-left"></i> 某款三国类题材游戏绕过Frida检测尝试
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">tower</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">40k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">36 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/tianhetonghua" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"tianhetonghua","repo":"AboutMyBlog","client_id":"Ov23lip5hWLlPib3F06n","client_secret":"4142ba6b432e4e10474e6ed440544285a7602c51","admin_user":"tianhetonghua","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"7afac1f1824b5d6cb3dbee95e263ac51"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+</body>
+</html>
