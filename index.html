@@ -288,7 +288,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2025-07-13 21:30:08 / 修改时间：21:33:09" itemprop="dateCreated datePublished" datetime="2025-07-13T21:30:08+08:00">2025-07-13</time>
+      <time title="创建时间：2025-07-13 21:30:08 / 修改时间：21:35:06" itemprop="dateCreated datePublished" datetime="2025-07-13T21:30:08+08:00">2025-07-13</time>
     </span>
 
   
@@ -321,7 +321,7 @@
             <img src=/images/default.png#封面图片 class="img-topic">
           </div>
         
-          <p>掌握这个APP的支付逻辑其实蛮简单，主要关注调起支付软件之前的创建订单请求。<br>1、先尝试发送支付时发送的一个请求，从抓的包来看，可能是更新支付状态，获取blottersCode和后续更新账号余额的api。<br><img src="/post/undefined/Pastedimage20250713211520.png" alt="[Pastedimage20250713211520.png]"><br>先尝试使用登录时的加密算法发送这个请求，但是返回error<br>验证究竟是不是使用的算法b：<br>使用frida hook函数，发现发送这个请求的过程中是有调用b的，初步推断可能就是使用的b算法，经过我实现的log_decode算法，把这个请求的data解密后确能得到真实的data，就能肯定使用的是b算法，那么返回error就要排查其他原因。最后发现是因为没有使用j函数，导致传入log_encode的是str而不是json，这下把strTojson改到log_encode实现<br>实现了伪造订单请求<br><img src="/post/undefined/Pastedimage20250713211744.png" alt="[Pastedimage20250713211744.png]"></p>
+          <p>掌握这个APP的支付逻辑其实蛮简单，主要关注调起支付软件之前的创建订单请求。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/post/41f7b84a#more" rel="contents">
