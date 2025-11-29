@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"tianhetonghua.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="补环境需要详细的调试信息，建议开启详细日志：vm.setVerbose(true)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unidbg补环境基础">
+<meta property="og:url" content="https://tianhetonghua.github.io/post/90e7f31c">
+<meta property="og:site_name" content="Towerの博客">
+<meta property="og:description" content="补环境需要详细的调试信息，建议开启详细日志：vm.setVerbose(true)">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-11-29T14:27:29.000Z">
+<meta property="article:modified_time" content="2025-11-29T14:34:04.812Z">
+<meta property="article:author" content="tower">
+<meta property="article:tag" content="安卓逆向">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://tianhetonghua.github.io/post/90e7f31c.html">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://tianhetonghua.github.io/post/90e7f31c","path":"post/90e7f31c.html","title":"Unidbg补环境基础"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入查看密码') !== ''){
+                alert('密码不正确,请询问主编大大！');
+                history.back();
+            }
+        }
+    })();
+</script><title>Unidbg补环境基础 | Towerの博客</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Towerの博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">15</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E5%BA%93%E5%87%BD%E6%95%B0%E4%BE%9D%E8%B5%96"><span class="nav-number">1.</span> <span class="nav-text">系统库函数依赖</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A1%A5JNI%EF%BC%8CJava%E5%B1%82%E7%9A%84%E8%B0%83%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">补JNI，Java层的调用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A1%A5%E6%96%87%E4%BB%B6%E8%AE%BF%E9%97%AE"><span class="nav-number">3.</span> <span class="nav-text">补文件访问</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%9C%8B%E6%8A%A5%E9%94%99"><span class="nav-number">4.</span> <span class="nav-text">如何看报错</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A4%E6%96%AD%E7%BC%BA%E5%A4%B1%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%EF%BC%9A"><span class="nav-number">4.1.</span> <span class="nav-text">判断缺失数据类型：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E8%BE%83%E5%AE%8C%E6%95%B4%E8%A1%A5%E7%8E%AF%E5%A2%83%E6%A8%A1%E6%9D%BF"><span class="nav-number">5.</span> <span class="nav-text">一个较完整补环境模板</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="tower"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">tower</p>
+  <div class="site-description" itemprop="description">非学无以广才，非志无以成学</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://tianhetonghua.github.io/post/90e7f31c">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="tower">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Towerの博客">
+      <meta itemprop="description" content="非学无以广才，非志无以成学">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Unidbg补环境基础 | Towerの博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Unidbg补环境基础
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-11-29 22:27:29 / 修改时间：22:34:04" itemprop="dateCreated datePublished" datetime="2025-11-29T22:27:29+08:00">2025-11-29</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>补环境需要详细的调试信息，建议开启详细日志：<code>vm.setVerbose(true)</code></p>
+<h1 id="系统库函数依赖"><a href="#系统库函数依赖" class="headerlink" title="系统库函数依赖"></a>系统库函数依赖</h1><p>扩展点：SyscallHandler.java<br>eg:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//替换默认处理器</span></span><br><span class="line"><span class="type">AndroidEmulatorBuilder</span> <span class="variable">builder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AndroidEmulatorBuilder</span>(<span class="literal">true</span>) &#123;  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="keyword">public</span> AndroidEmulator <span class="title function_">build</span><span class="params">()</span> &#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">AndroidARM64Emulator</span>(processName, rootDir, backendFactories) &#123;  </span><br><span class="line">            <span class="meta">@Override</span>  </span><br><span class="line">            <span class="keyword">protected</span> UnixSyscallHandler&lt;AndroidFileIO&gt; <span class="title function_">createSyscallHandler</span><span class="params">(SvcMemory svcMemory)</span> &#123;  </span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">MySyscallHandler</span>(svcMemory);<span class="comment">//MySyscallHandler为自定义类</span></span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;;  </span><br><span class="line">builder.setProcessName(<span class="string">&quot;进程名&quot;</span>);  </span><br><span class="line">emulator = builder.build();</span><br><span class="line"></span><br><span class="line">....</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MySyscallHandler</span> <span class="keyword">extends</span> <span class="title class_">ARM64SyscallHandler</span> &#123;  </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">MySyscallHandler</span><span class="params">(SvcMemory svcMemory)</span> &#123;  </span><br><span class="line">        <span class="built_in">super</span>(svcMemory);  </span><br><span class="line">        setVerbose(<span class="literal">true</span>); <span class="comment">// 可按需开启详细日志  </span></span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="comment">// 在这里重写或添加你的处理逻辑  </span></span><br><span class="line">    </span><br><span class="line">    ......</span><br><span class="line">    </span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+<h1 id="补JNI，Java层的调用"><a href="#补JNI，Java层的调用" class="headerlink" title="补JNI，Java层的调用"></a>补JNI，Java层的调用</h1><p>继承：AbstractJni.java<br>eg:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">...<span class="comment">//创建DalvikVM实例之后</span></span><br><span class="line">vm.setjni(<span class="built_in">this</span>)</span><br><span class="line">...<span class="comment">//后面继承与重写建议在同路径下新建JAVA文件再写</span></span><br><span class="line"><span class="comment">//xxxx可以是`Object`, `Boolean`, `Int`, `Void` 等，根据报错判断</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyJNI</span> <span class="keyword">extends</span> <span class="title class_">AbstractJni</span>&#123;</span><br><span class="line">	<span class="meta">@Override</span><span class="comment">//模拟静态方法</span></span><br><span class="line">	<span class="keyword">public</span> DvmObject&lt;?&gt; callStaticxxxxxxMethodV(BaseVM vm, DvmClass dvmClass, String signature, VaList vaList) &#123;  </span><br><span class="line">            <span class="keyword">switch</span> (signature) &#123;  </span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;com/example/MyClass-&gt;getAppContext()Landroid/content/Context;&quot;</span>:  </span><br><span class="line">                    <span class="comment">// 返回一个模拟的 Context 对象  </span></span><br><span class="line">                    <span class="keyword">return</span> vm.resolveClass(<span class="string">&quot;android/content/Context&quot;</span>).newObject(<span class="literal">null</span>);  </span><br><span class="line">                <span class="comment">// 可以添加更多 case 来处理其他需要补全的 Java 方法  </span></span><br><span class="line">                <span class="keyword">default</span>:  </span><br><span class="line">                    <span class="comment">// 对于未处理的方法，务必调用父类的默认实现  </span></span><br><span class="line">                    <span class="keyword">return</span> <span class="built_in">super</span>.callStaticObjectMethodV(vm, dvmClass, signature, vaList);  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="meta">@Override</span>  <span class="comment">//模拟构造方法</span></span><br><span class="line">	<span class="keyword">public</span> DvmObject&lt;?&gt; newObejectV(BaseVM vm, DvmClass dvmClass, String signature, VaList vaList) &#123;  </span><br><span class="line">	    <span class="keyword">switch</span> (signature) &#123;  </span><br><span class="line">	        <span class="keyword">case</span> <span class="string">&quot;java/util/HashMap-&gt;&lt;init&gt;()V&quot;</span>: &#123;  </span><br><span class="line">	            <span class="keyword">return</span> ProxyDvmObject.createObject(vm, <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;());  </span><br><span class="line">	        &#125;  </span><br><span class="line">  </span><br><span class="line">	        <span class="keyword">case</span> <span class="string">&quot;com/zj/wuaipojie/ui/ChallengeTen$UserInfo-&gt;&lt;init&gt;(Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Lcom/zj/wuaipojie/ui/ChallengeTen$AccountStatus;Ljava/util/Map;)V&quot;</span>: &#123;  </span><br><span class="line">	            System.out.println(<span class="string">&quot;【补环境 Level 3】拦截到 UserInfo 构造方法&quot;</span>);  </span><br><span class="line">	            Map&lt;String, DvmObject&lt;?&gt;&gt; userInfoData = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();  </span><br><span class="line">	            userInfoData.put(<span class="string">&quot;status&quot;</span>, vaList.getObjectArg(<span class="number">4</span>));  </span><br><span class="line">	            userInfoData.put(<span class="string">&quot;properties&quot;</span>, vaList.getObjectArg(<span class="number">5</span>));  </span><br><span class="line">	            <span class="keyword">return</span> dvmClass.newObject(userInfoData);  </span><br><span class="line">	        &#125;  </span><br><span class="line">	    &#125;  </span><br><span class="line">	    <span class="keyword">return</span> <span class="built_in">super</span>.newObjectV(vm, dvmClass, signature, vaList);  </span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span>  <span class="comment">//模拟字段访问</span></span><br><span class="line">	<span class="keyword">public</span> DvmObject&lt;?&gt; getStaticObjectField(BaseVM vm, DvmClass dvmClass, String signature) &#123;  </span><br><span class="line">	    <span class="comment">// 匹配枚举类的 PREMIUM 静态字段  </span></span><br><span class="line">	    <span class="keyword">if</span> (<span class="string">&quot;com/zj/wuaipojie/ui/ChallengeTen$AccountStatus-&gt;PREMIUM:Lcom/zj/wuaipojie/ui/ChallengeTen$AccountStatus;&quot;</span>.equals(signature)) &#123;  </span><br><span class="line">	        System.out.println(<span class="string">&quot;【补环境】拦截到获取 AccountStatus.PREMIUM 静态字段&quot;</span>);  </span><br><span class="line">	        <span class="comment">// 创建一个枚举实例（用字符串&quot;PREMIUM&quot;作为其值，方便后续name()方法返回正确结果）  </span></span><br><span class="line">	        DvmObject&lt;?&gt; premium = dvmClass.newObject(<span class="string">&quot;PREMIUM&quot;</span>);  </span><br><span class="line">	        <span class="keyword">return</span> premium;  </span><br><span class="line">	    &#125;  </span><br><span class="line">	    <span class="keyword">return</span> <span class="built_in">super</span>.getStaticObjectField(vm, dvmClass, signature);  </span><br><span class="line">	&#125;  </span><br><span class="line">  </span><br><span class="line">	<span class="meta">@Override</span>  </span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setIntField</span><span class="params">(BaseVM vm, DvmObject&lt;?&gt; dvmObject, String signature, <span class="type">int</span> value)</span> &#123;  </span><br><span class="line">	    <span class="comment">// signature的格式是：com/example/User-&gt;age:I  </span></span><br><span class="line">	    <span class="keyword">if</span> (<span class="string">&quot;com/example/User-&gt;age:I&quot;</span>.equals(signature)) &#123;  </span><br><span class="line">	        System.out.println(<span class="string">&quot;SO 正在设置 User 对象的 age 字段，值为: &quot;</span> + value);  </span><br><span class="line">	        <span class="comment">// 你可以在这里记录值，或者什么都不做  </span></span><br><span class="line">	        <span class="keyword">return</span>; <span class="comment">// 注意set方法是void返回  </span></span><br><span class="line">	    &#125;  </span><br><span class="line">	    <span class="built_in">super</span>.setIntField(vm, dvmObject, signature, value);  </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="补文件访问"><a href="#补文件访问" class="headerlink" title="补文件访问"></a>补文件访问</h1><p>unidbg有责任机制：优先是用户定义的文件处理器-&gt;unidbg默认文件处理器<br>添加文件处理器（在模拟执行之前）:<code>emulator.getSyscallHandler().addIOResolver()</code><br>1、继承：IOResolver.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">emulator.getSyscallHandler().addIOResolver(<span class="built_in">this</span>);<span class="comment">//注册IOResolver</span></span><br><span class="line"></span><br><span class="line">......</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> FileResult&lt;AndroidFileIO&gt; <span class="title function_">resolve</span><span class="params">(Emulator&lt;AndroidFileIO&gt; emulator, String pathname, <span class="type">int</span> oflags)</span> &#123;</span><br><span class="line">	System.out.println(<span class="string">&quot;[IOResolver] Intercepted file access -&gt; Path: &#x27;&quot;</span> + pathname + <span class="string">&quot;&#x27;, Flags: &quot;</span> + oflags);</span><br><span class="line">	<span class="keyword">switch</span>(pathname)&#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="string">&quot;xxxx&quot;</span>:</span><br><span class="line">			<span class="keyword">return</span> FileResult.success(<span class="keyword">new</span> <span class="title class_">ByteArrayFileIO</span>(oflags, pathname, 字符串.getBytes()))<span class="comment">//动态文件，只能读</span></span><br><span class="line">		<span class="keyword">case</span> <span class="string">&quot;xxxxxx&quot;</span>:</span><br><span class="line">			<span class="keyword">return</span>  FileResult.success(<span class="keyword">new</span> <span class="title class_">SimpleFileIO</span>(oflags, <span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;unidbg-android/src/test/resources/cpu/boot_id&quot;</span>), pathname));<span class="comment">//物理文件，可读写</span></span><br><span class="line">		<span class="keyword">case</span> <span class="string">&quot;xxxxx&quot;</span>:</span><br><span class="line">			<span class="keyword">return</span> FileResult.failed(UnixEmulator.EACCES)；<span class="comment">//访问失败</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2、rootDir：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">emulator = AndroidEmulatorBuilder</span><br><span class="line">                .for64Bit()</span><br><span class="line">                <span class="comment">//虚拟目录</span></span><br><span class="line">                .setRootDir(<span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;unidbg-android/src/test/resources/FileDemo/VFS&quot;</span>))</span><br><span class="line">                .build();<span class="comment">//创建仿真器的时候创建根目录</span></span><br><span class="line"><span class="comment">//直接操作VFS文件夹，so产生的所有文件访问最后兜底的就是这个文件系统，</span></span><br></pre></td></tr></table></figure>
+<p>优先级：<code>IOResolver  &gt; rootDir</code>，均属于VFS系统。可以同时使用。</p>
+<h1 id="如何看报错"><a href="#如何看报错" class="headerlink" title="如何看报错"></a>如何看报错</h1><h2 id="判断缺失数据类型："><a href="#判断缺失数据类型：" class="headerlink" title="判断缺失数据类型："></a>判断缺失数据类型：</h2><p>signature的组成一般是：<code>(类路径)-&gt;(字段名):(字段类型签名);</code><br>例如<code>com/zj/wuaipojie/util/SecurityUtil$Config-&gt;deviceId:Ljava/lang/String;</code>:<br><code>com/zj/wuaipojie/util/SecurityUtil$Config</code>:表示在config这个子类中；<br><code>deviceId</code>:表示缺的是config类中的deviceId成员变量；<br><code>Ljava/lang/String;</code>:表示这个变量的类型是一个字符串。<br>由此可知我们在补环境时，补的是一个字符串变量。</p>
+<h1 id="一个较完整补环境模板"><a href="#一个较完整补环境模板" class="headerlink" title="一个较完整补环境模板"></a>一个较完整补环境模板</h1><p><code>MainActivity.java</code>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.github.unidbg.AndroidEmulator;</span><br><span class="line"><span class="keyword">import</span> com.github.unidbg.Emulator;</span><br><span class="line"><span class="keyword">import</span> com.github.unidbg.Module;</span><br><span class="line"><span class="keyword">import</span> com.github.unidbg.file.FileResult;</span><br><span class="line"><span class="keyword">import</span> com.github.unidbg.file.IOResolver;</span><br><span class="line"><span class="keyword">import</span> com.github.unidbg.file.linux.AndroidFileIO;</span><br><span class="line"><span class="keyword">import</span> com.github.unidbg.linux.android.AndroidARM64Emulator;</span><br><span class="line"><span class="keyword">import</span> com.github.unidbg.linux.android.AndroidEmulatorBuilder;</span><br><span class="line"><span class="keyword">import</span> com.github.unidbg.linux.android.AndroidResolver;</span><br><span class="line"><span class="keyword">import</span> com.github.unidbg.linux.android.dvm.*;</span><br><span class="line"><span class="keyword">import</span> com.github.unidbg.linux.file.ByteArrayFileIO;</span><br><span class="line"><span class="keyword">import</span> com.github.unidbg.linux.file.SimpleFileIO;</span><br><span class="line"><span class="keyword">import</span> com.github.unidbg.memory.Memory;</span><br><span class="line"><span class="keyword">import</span> com.github.unidbg.memory.SvcMemory;</span><br><span class="line"><span class="keyword">import</span> com.github.unidbg.unix.UnixEmulator;</span><br><span class="line"><span class="keyword">import</span> com.github.unidbg.unix.UnixSyscallHandler;</span><br><span class="line"><span class="keyword">import</span> com.example.MySyscallHandler;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileNotFoundException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MainActivity</span> <span class="keyword">extends</span> <span class="title class_">AbstractJni</span> <span class="keyword">implements</span> <span class="title class_">IOResolver</span>&lt;AndroidFileIO&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span>  AndroidEmulator emulator ;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span>  VM vm;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Module <span class="keyword">module</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">MainActivity</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">//替换默认处理器</span></span><br><span class="line">        <span class="type">AndroidEmulatorBuilder</span> <span class="variable">builder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AndroidEmulatorBuilder</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> AndroidEmulator <span class="title function_">build</span><span class="params">()</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">AndroidARM64Emulator</span>(processName, rootDir, backendFactories) &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="keyword">protected</span> UnixSyscallHandler&lt;AndroidFileIO&gt; <span class="title function_">createSyscallHandler</span><span class="params">(SvcMemory svcMemory)</span> &#123;</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">MySyscallHandler</span>(svcMemory);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        builder.setProcessName(<span class="string">&quot;进程名&quot;</span>);</span><br><span class="line">        emulator = builder.setRootDir(<span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;unidbg/unidbg-android/src/test/resources/example&quot;</span>)).build();<span class="comment">//创建模拟器,设置模拟文件系统（补文件访问环境）</span></span><br><span class="line">        emulator.getSyscallHandler().setVerbose(<span class="literal">true</span>);<span class="comment">//开启详细日志</span></span><br><span class="line">        emulator.getSyscallHandler().addIOResolver(<span class="built_in">this</span>);<span class="comment">//注册IOResolver</span></span><br><span class="line">        <span class="keyword">final</span> <span class="type">Memory</span> <span class="variable">memory</span> <span class="operator">=</span> emulator.getMemory();</span><br><span class="line">        memory.setLibraryResolver(<span class="keyword">new</span> <span class="title class_">AndroidResolver</span>(<span class="number">23</span>));</span><br><span class="line">        vm = emulator.createDalvikVM();</span><br><span class="line"></span><br><span class="line">        MyJni myjni=<span class="keyword">new</span> <span class="title class_">MyJni</span>(vm);</span><br><span class="line">        vm.setJni(myjni);</span><br><span class="line">        vm.setVerbose(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">File</span> <span class="variable">soFile</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;unidbg-android/src/test/so路径&quot;</span>);</span><br><span class="line">        <span class="type">DalvikModule</span> <span class="variable">dm</span> <span class="operator">=</span> vm.loadLibrary(soFile, <span class="literal">true</span>);</span><br><span class="line">        <span class="keyword">module</span> = dm.getModule();</span><br><span class="line">        dm.callJNI_OnLoad(emulator);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//补文件访问</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> FileResult&lt;AndroidFileIO&gt; <span class="title function_">resolve</span><span class="params">(Emulator&lt;AndroidFileIO&gt; emulator, String pathname, <span class="type">int</span> oflags)</span> &#123;</span><br><span class="line">        <span class="comment">// 无论是否处理，都打印出来，这是发现未知文件访问的关键。</span></span><br><span class="line">        System.out.println(<span class="string">&quot;[IOResolver] Intercepted file access -&gt; Path: &#x27;&quot;</span> + pathname + <span class="string">&quot;&#x27;, Flags: &quot;</span> + oflags);</span><br><span class="line">        <span class="keyword">switch</span>(pathname)&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;xxxxxxx&quot;</span>:&#123;</span><br><span class="line">                String statusContent=<span class="string">&quot;xxxxxxxxxxxx&quot;</span>;</span><br><span class="line">                <span class="keyword">return</span> FileResult.success(<span class="keyword">new</span> <span class="title class_">ByteArrayFileIO</span>(oflags, pathname, statusContent.getBytes()));<span class="comment">//成功返回，动态，仅可读，不可写</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;xxxxxx&quot;</span>: &#123;</span><br><span class="line">                <span class="comment">//.......</span></span><br><span class="line">                <span class="keyword">return</span> FileResult.success(<span class="keyword">new</span> <span class="title class_">SimpleFileIO</span>(oflags, <span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;unidbg-android/src/test/resources/cpu/boot_id&quot;</span>), pathname));<span class="comment">//物理文件，可读写</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;xxxxx&quot;</span>: &#123;</span><br><span class="line">                <span class="comment">//........</span></span><br><span class="line">                <span class="keyword">return</span> FileResult.failed(UnixEmulator.EACCES);<span class="comment">//访问失败,权限不足</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;<span class="comment">//return null表示交给下一个处理器</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> FileNotFoundException &#123;</span><br><span class="line">        <span class="comment">//To Do....</span></span><br><span class="line">        emulator.set(<span class="string">&quot;javaTid&quot;</span>, <span class="number">0xFFFF</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">DvmClass</span> <span class="variable">securityUtilClass</span> <span class="operator">=</span> vm.resolveClass(<span class="string">&quot;&quot;</span>);</span><br><span class="line">        <span class="type">StringObject</span> <span class="variable">result</span> <span class="operator">=</span> securityUtilClass.callStaticJniMethodObject(emulator, <span class="string">&quot;&quot;</span>, <span class="number">0xFFFF</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>MyJni.java</code>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.github.unidbg.linux.android.dvm.AbstractJni;</span><br><span class="line"><span class="keyword">import</span> com.github.unidbg.linux.android.dvm.VM;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyJni</span> <span class="keyword">extends</span> <span class="title class_">AbstractJni</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> VM vm;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">MyJni</span><span class="params">(VM vm)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.vm=vm;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//    补JNI环境</span></span><br><span class="line"><span class="comment">//    @Override</span></span><br><span class="line"><span class="comment">//    public .......</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>MySyscallHandler</code>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.github.unidbg.Emulator;</span><br><span class="line"><span class="keyword">import</span> com.github.unidbg.arm.backend.Backend;</span><br><span class="line"><span class="keyword">import</span> com.github.unidbg.linux.ARM64SyscallHandler;</span><br><span class="line"><span class="keyword">import</span> com.github.unidbg.memory.SvcMemory;</span><br><span class="line"><span class="keyword">import</span> java.util.Random;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MySyscallHandler</span> <span class="keyword">extends</span> <span class="title class_">ARM64SyscallHandler</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">Random</span> <span class="variable">rng</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Random</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">MySyscallHandler</span><span class="params">(SvcMemory svcMemory)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(svcMemory);</span><br><span class="line">        setVerbose(<span class="literal">true</span>); <span class="comment">// 可按需开启详细日志</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="type">boolean</span> <span class="title function_">handleUnknownSyscall</span><span class="params">(Emulator&lt;?&gt; emulator, <span class="type">int</span> NR)</span> &#123;</span><br><span class="line">        System.err.println(<span class="string">&quot;&gt;&gt;&gt; MySyscallHandler is processing syscall NR = &quot;</span> + NR);</span><br><span class="line">        <span class="type">Backend</span> <span class="variable">backend</span> <span class="operator">=</span> emulator.getBackend();</span><br><span class="line">        <span class="keyword">switch</span> (NR) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">1</span>: &#123;</span><br><span class="line">                <span class="comment">//To Do</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">2</span>: &#123;</span><br><span class="line">                <span class="comment">//To do</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>.handleUnknownSyscall(emulator, NR);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p>学习资源：<a target="_blank" rel="noopener" href="https://github.com/ZJ595/AndroidReverse">《安卓逆向这档事》</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91/" rel="tag"># 安卓逆向</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/post/41f7b84a" rel="prev" title="mmmhua支付链分析">
+                  <i class="fa fa-angle-left"></i> mmmhua支付链分析
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">tower</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">50k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">45 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/tianhetonghua" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"tianhetonghua","repo":"AboutMyBlog","client_id":"Ov23lip5hWLlPib3F06n","client_secret":"4142ba6b432e4e10474e6ed440544285a7602c51","admin_user":"tianhetonghua","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"0ee3aacdf3575e6b55ad34ee0abc1c1a"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+</body>
+</html>
