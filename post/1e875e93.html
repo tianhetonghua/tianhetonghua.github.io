@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"tianhetonghua.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="OLLVM（全称 Obfuscator-LLVM）是基于 LLVM 源码二次开发的开源混淆编译器框架，它通过向 LLVM 编译流程中注入自定义混淆 Pass，实现控制流平坦化、虚假控制流等多种代码混淆功能，属于 LLVM 的第三方衍生版本，要了解OLLVM，先要了解LLVM。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从源码入手理解OLLVM（一）">
+<meta property="og:url" content="https://tianhetonghua.github.io/post/1e875e93">
+<meta property="og:site_name" content="Towerの博客">
+<meta property="og:description" content="OLLVM（全称 Obfuscator-LLVM）是基于 LLVM 源码二次开发的开源混淆编译器框架，它通过向 LLVM 编译流程中注入自定义混淆 Pass，实现控制流平坦化、虚假控制流等多种代码混淆功能，属于 LLVM 的第三方衍生版本，要了解OLLVM，先要了解LLVM。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tianhetonghua.github.io/Pastedimage20251214201441-1765723713698-1.png">
+<meta property="article:published_time" content="2025-12-14T14:43:45.000Z">
+<meta property="article:modified_time" content="2025-12-14T14:49:30.472Z">
+<meta property="article:author" content="tower">
+<meta property="article:tag" content="混淆">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://tianhetonghua.github.io/Pastedimage20251214201441-1765723713698-1.png">
+
+
+<link rel="canonical" href="https://tianhetonghua.github.io/post/1e875e93.html">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://tianhetonghua.github.io/post/1e875e93","path":"post/1e875e93.html","title":"从源码入手理解OLLVM（一）"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入查看密码') !== ''){
+                alert('密码不正确,请询问主编大大！');
+                history.back();
+            }
+        }
+    })();
+</script><title>从源码入手理解OLLVM（一） | Towerの博客</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Towerの博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">16</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#clang%E7%BC%96%E8%AF%91%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">clang编译器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SSA"><span class="nav-number">1.1.</span> <span class="nav-text">SSA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AST-%E6%8A%BD%E8%B1%A1%E8%AF%AD%E6%B3%95%E6%A0%91"><span class="nav-number">1.2.</span> <span class="nav-text">AST(抽象语法树)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Basic-Block-%E5%9F%BA%E6%9C%AC%E5%9D%97"><span class="nav-number">1.3.</span> <span class="nav-text">Basic Block(基本块)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IR%EF%BC%88%E4%B8%AD%E9%97%B4%E8%A1%A8%E8%BE%BE%EF%BC%89"><span class="nav-number">1.4.</span> <span class="nav-text">IR（中间表达）</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="tower"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">tower</p>
+  <div class="site-description" itemprop="description">非学无以广才，非志无以成学</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://tianhetonghua.github.io/post/1e875e93">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="tower">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Towerの博客">
+      <meta itemprop="description" content="非学无以广才，非志无以成学">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="从源码入手理解OLLVM（一） | Towerの博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          从源码入手理解OLLVM（一）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-12-14 22:43:45 / 修改时间：22:49:30" itemprop="dateCreated datePublished" datetime="2025-12-14T22:43:45+08:00">2025-12-14</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>OLLVM（全称 Obfuscator-LLVM）是基于 LLVM 源码二次开发的开源混淆编译器框架，它通过向 LLVM 编译流程中注入自定义混淆 Pass，实现控制流平坦化、虚假控制流等多种代码混淆功能，属于 LLVM 的第三方衍生版本，要了解OLLVM，先要了解LLVM。</p>
+<h1 id="clang编译器"><a href="#clang编译器" class="headerlink" title="clang编译器"></a><a target="_blank" rel="noopener" href="https://llvm.org/">clang编译器</a></h1><p>Clang 是基于 LLVM编译器基础设施 实现的主流前端编译器。说到编译器，大家最熟悉的就是GCC，那Clang(编译器)和GCC有哪些不一样呢？支持多种语言：Swift&#x2F;Rust&#x2F;Objective-C，性能优化更好，模块化设计（前、中、后端解耦）。最重要的是LLVM 的中端优化基于 SSA 形式的 LLVM IR，这一点与 GCC 的 GIMPLE SSA 在思想上是相通的。但 LLVM IR 作为稳定、对外暴露的中间表示，使得定制 Pass（如 OLLVM）在工程实现上更为友好，这会使得该编译器在常量传播、死代码消除更精准，OLLVM作为二次开发的产物，也继承这一特点。如果你有过静态分析控制流平坦化函数中某个变量的经历，很容易就能观察到，某个变量从定义到后续使用的过程中，会有大量的其余变量来接收、转移，给人一种狡兔三窟的感觉，但这并不是混淆本身，只是编译器的优化策略使然。</p>
+<h2 id="SSA"><a href="#SSA" class="headerlink" title="SSA"></a>SSA</h2><p>静态单赋值，顾名思义，就是该变量被定义后，只能被赋值一次。举个例子：<br>非SSA形式：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a = <span class="number">1</span>;    <span class="comment">// 第一次赋值</span></span><br><span class="line">a = a + <span class="number">2</span>;    <span class="comment">// 第二次赋值（修改原有变量）</span></span><br><span class="line"><span class="keyword">if</span> (cond) &#123;</span><br><span class="line">    a = a * <span class="number">3</span>; <span class="comment">// 第三次赋值</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    a = a - <span class="number">1</span>; <span class="comment">// 第四次赋值</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">printf</span>(a);</span><br></pre></td></tr></table></figure>
+<p>SSA形式</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a1 = <span class="number">1</span>;                  <span class="comment">// 初始赋值（版本1）</span></span><br><span class="line"><span class="type">int</span> a2 = a1 + <span class="number">2</span>;             <span class="comment">// 新变量a2承载修改后的值（版本2）</span></span><br><span class="line"><span class="keyword">if</span> (cond) &#123;</span><br><span class="line">    <span class="type">int</span> a3 = a2 * <span class="number">3</span>;         <span class="comment">// 分支1：新变量a3（版本3）</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="type">int</span> a4 = a2 - <span class="number">1</span>;         <span class="comment">// 分支2：新变量a4（版本4）</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> a5 = φ(a3, a4);          <span class="comment">// φ函数：根据执行路径选择a3或a4，赋值给a5（版本5）</span></span><br><span class="line"><span class="built_in">printf</span>(a5);</span><br></pre></td></tr></table></figure>
+<p>这样操作有个好处，就是通过静态分析就能观察到变量的变化和赋值情况，观察到a5变量就意味着前面已经被赋值了4次。</p>
+<h2 id="AST-抽象语法树"><a href="#AST-抽象语法树" class="headerlink" title="AST(抽象语法树)"></a>AST(抽象语法树)</h2><p>LLVM编译器中clang会将源码解析出树状结构<br>eg:<br>代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> b ≠ <span class="number">0</span>:</span><br><span class="line">    <span class="keyword">if</span> a &gt; b:</span><br><span class="line">        a := a - b</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        b := b - a</span><br><span class="line"><span class="keyword">return</span> a</span><br></pre></td></tr></table></figure>
+<p>树形：<br><img src="/Pastedimage20251214201441-1765723713698-1.png" alt="Pastedimage20251214201441"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">```plaintext</span><br><span class="line">语句序列</span><br><span class="line">├─ while循环</span><br><span class="line">│  ├─ 循环条件</span><br><span class="line">│  │  ├─ 比较运算符：!=</span><br><span class="line">│  │  ├─ 变量名：b</span><br><span class="line">│  │  └─ 常量值：0</span><br><span class="line">│  └─ 循环体</span><br><span class="line">│     └─ 分支（if-else）</span><br><span class="line">│        ├─ 分支条件</span><br><span class="line">│        │  ├─ 比较运算符：&gt;</span><br><span class="line">│        │  ├─ 变量名：a</span><br><span class="line">│        │  └─ 变量名：b</span><br><span class="line">│        ├─ if分支体</span><br><span class="line">│        │  └─ 赋值语句</span><br><span class="line">│        │     ├─ 变量名：a</span><br><span class="line">│        │     └─ 二元运算符：-</span><br><span class="line">│        │        ├─ 变量名：a</span><br><span class="line">│        │        └─ 变量名：b</span><br><span class="line">│        └─ else分支体</span><br><span class="line">│           └─ 赋值语句</span><br><span class="line">│              ├─ 变量名：b</span><br><span class="line">│              └─ 二元运算符：-</span><br><span class="line">│                 ├─ 变量名：b</span><br><span class="line">│                 └─ 变量名：a</span><br><span class="line">└─ 返回语句</span><br><span class="line">   └─ 变量名：a</span><br></pre></td></tr></table></figure>
+<h2 id="Basic-Block-基本块"><a href="#Basic-Block-基本块" class="headerlink" title="Basic Block(基本块)"></a>Basic Block(基本块)</h2><p>基本块是编译器根据AST转化出IR的同时，根据一些规则，同时划分出基本块：**唯一入口、遇到跳转或者返回（ret）会形成新的块，ida中cfg的代码块的划分也是基于这个规则。</p>
+<h2 id="IR（中间表达）"><a href="#IR（中间表达）" class="headerlink" title="IR（中间表达）"></a><a target="_blank" rel="noopener" href="https://openmlsys.github.io/chapter_frontend_and_ir/intermediate_representation.html">IR（中间表达）</a></h2><p>IR是编译过程中沟通源码与汇编的一种中间抽象语言表达，不仅仅是语法表示还有基本块这个骨架。有以下作用：</p>
+<ul>
+<li>解耦 “前端（源码）” 和 “后端（机器码）”，实现跨语言、跨架构编译。</li>
+<li>作为 “编译优化的统一载体”，实现高效、通用的代码优化。eg:<code>a1=1 → a2=a1+2</code> 会被优化为 <code>a2=3</code></li>
+<li>降低编译器扩展 &#x2F; 定制的复杂度。ollvm就是在这个阶段加入的混淆<br>GCC、LLVM都具有中间表达这种概念，但是LLVM是暴露开放的，有单独的中间文件，GCC相反。<br>IR中间表达继承了前端源码的语义，以类汇编的语法进行表达，才沟通起了整个编译过程的始末。</li>
+</ul>
+<p><em>微码（mc）</em>，ida反编译过程中的一种中间表达，后面D810反混淆原理要进一步了解。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%B7%B7%E6%B7%86/" rel="tag"># 混淆</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/post/90e7f31c" rel="prev" title="Unidbg补环境基础">
+                  <i class="fa fa-angle-left"></i> Unidbg补环境基础
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">tower</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">51k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">47 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/tianhetonghua" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"tianhetonghua","repo":"AboutMyBlog","client_id":"Ov23lip5hWLlPib3F06n","client_secret":"4142ba6b432e4e10474e6ed440544285a7602c51","admin_user":"tianhetonghua","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"a8bcb917ad711c88aca0f02e7a37cc6c"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+</body>
+</html>
