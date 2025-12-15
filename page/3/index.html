@@ -25,7 +25,7 @@
     <meta name="description" content="非学无以广才，非志无以成学">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Towerの博客">
-<meta property="og:url" content="https://tianhetonghua.github.io/tags/%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/">
+<meta property="og:url" content="https://tianhetonghua.github.io/page/3/">
 <meta property="og:site_name" content="Towerの博客">
 <meta property="og:description" content="非学无以广才，非志无以成学">
 <meta property="og:locale" content="zh_CN">
@@ -33,10 +33,10 @@
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://tianhetonghua.github.io/tags/%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/">
+<link rel="canonical" href="https://tianhetonghua.github.io/page/3/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"tags/病毒分析/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"page/3/index.html","title":""}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <script>
@@ -48,7 +48,7 @@
             }
         }
     })();
-</script><title>标签: 病毒分析 | Towerの博客</title>
+</script><title>Towerの博客</title>
   
 
 
@@ -102,7 +102,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">Towerの博客</p>
+      <h1 class="site-title">Towerの博客</h1>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -203,90 +203,158 @@
 
     </div>
 
-    <div class="main-inner tag posts-collapse">
+    <div class="main-inner index posts-expand">
 
 
-  
-  
-  
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <h1 class="collection-header">病毒分析
-          <small>标签</small>
-        </h1>
-      </div>
+	<div class="tag-cloud">
+	  <div class="tag-cloud-tags" id="tags">
+		<a href="/tags/%E5%85%B6%E4%BB%96/" style="font-size: 16px; color: #fff">其他</a> <a href="/tags/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91/" style="font-size: 16px; color: #fff">安卓逆向</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%80%86%E5%90%91/" style="font-size: 16px; color: #fff">小程序逆向</a> <a href="/tags/%E6%B7%B7%E6%B7%86/" style="font-size: 16px; color: #fff">混淆</a> <a href="/tags/%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/" style="font-size: 16px; color: #fff">病毒分析</a>
+	  </div>
+	</div>
+	<br>
+	
+	<script type="text/javascript">
+     var alltags = document.getElementsByClassName('tag-cloud-tags');
+     var tags = alltags[0].getElementsByTagName('a');
+     for (var i = tags.length - 1; i >= 0; i--) {
+       var r=Math.floor(Math.random()*75+130);
+       var g=Math.floor(Math.random()*75+100);
+       var b=Math.floor(Math.random()*75+80);
+       tags[i].style.background = "rgb("+r+","+g+","+b+")";
+     }
+</script>
 
+<style>
+  .tag-cloud-tags{
+    /*font-family: Helvetica, Tahoma, Arial;*/
+    /*font-weight: 100;*/
+    text-align: center;
+    counter-reset: tags;
+  }
+  .tag-cloud-tags a{
+    border-radius: 6px;
+    padding-right: 5px;
+    padding-left: 5px;
+    margin: 8px 5px 0px 0px;
+  }
+  .tag-cloud-tags a:before{
+    content: "";
+  }
+
+  .tag-cloud-tags a:hover{
+     box-shadow: 0px 5px 15px 0px rgba(0,0,0,.4);
+     transform: scale(1.1);
+     /*box-shadow: 10px 10px 15px 2px rgba(0,0,0,.12), 0 0 6px 0 rgba(104, 104, 105, 0.1);*/
+     transition-duration: 0.15s;
+  }
+</style>
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://tianhetonghua.github.io/post/fd83d09f">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="tower">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Towerの博客">
+      <meta itemprop="description" content="非学无以广才，非志无以成学">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Towerの博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/post/fd83d09f" class="post-title-link" itemprop="url">记第一次Hook（Frida）和Apktool修改安卓程序</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-02-20 19:56:19" itemprop="dateCreated datePublished" datetime="2025-02-20T19:56:19+08:00">2025-02-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-04-20 20:27:14" itemprop="dateModified" datetime="2025-04-20T20:27:14+08:00">2025-04-20</time>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>987</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        
+          <div class="out-img-topic">
+            <img src=/images/default.png#封面图片 class="img-topic">
+          </div>
+        
+          <p>1.apltool基础操作：<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/CnKker/p/11125182.html">安卓apk反编译、修改、重新打包、签名全过程 - cnkker.com - 博客园</a></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/post/fd83d09f#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
-    <div class="collection-year">
-      <span class="collection-header">2025</span>
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2025-04-06T14:11:30+08:00"
-              content="2025-04-06">
-          04-06
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-          <a class="post-title-link" href="/post/a79f02af" itemprop="url">
-            <span itemprop="name">熊猫烧香病毒分析（下）</span>
-          </a>
-      </div>
-
+    <footer class="post-footer">
+        <div class="post-eof"></div>
       
-    </header>
+    </footer>
   </article>
+</div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2025-03-31T21:26:14+08:00"
-              content="2025-03-31">
-          03-31
-        </time>
-      </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/post/1f2365ca" itemprop="url">
-            <span itemprop="name">熊猫烧香病毒分析（上）</span>
-          </a>
-      </div>
 
-      
-    </header>
-  </article>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2025-03-31T21:26:14+08:00"
-              content="2025-03-31">
-          03-31
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/post/22c6f24d" itemprop="url">
-            <span itemprop="name">熊猫烧香病毒分析（中）</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-    </div>
-  </div>
-  
-  
-  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
 
 </div>
   </main>
@@ -361,7 +429,7 @@
 </noscript>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
 
-<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"tianhetonghua","repo":"AboutMyBlog","client_id":"Ov23lip5hWLlPib3F06n","client_secret":"4142ba6b432e4e10474e6ed440544285a7602c51","admin_user":"tianhetonghua","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"1f93ec5cf680539d328c084ed1ed93f6"}</script>
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"tianhetonghua","repo":"AboutMyBlog","client_id":"Ov23lip5hWLlPib3F06n","client_secret":"4142ba6b432e4e10474e6ed440544285a7602c51","admin_user":"tianhetonghua","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"0fbab7edd0d4dab4bf31d3d31408c245"}</script>
 <script src="/js/third-party/comments/gitalk.js" defer></script>
 
 </body>
